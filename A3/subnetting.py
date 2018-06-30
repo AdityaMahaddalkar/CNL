@@ -1,5 +1,6 @@
 #import pyping
 import ipaddress
+from math import log
 from findSubnet import *
 import os
 
@@ -11,7 +12,7 @@ def createSubnets(network, number=1):
     ipaddress.IPv4Network
     '''
     try:
-        return list(network.subnets(number))
+        return list(network.subnets(int(log(number)/log(2))))
     except Exception as e:
         print(str(e))
 
