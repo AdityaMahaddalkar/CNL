@@ -11,6 +11,7 @@ def inputIp():
     return ipaddress.IPv4Address(ip)
 
 
+'''
 def findClass(ip='0.0.0.0'):
     ''' Finds the class of ip'''
     octets = list(map(int, ip.split('.')))
@@ -25,3 +26,4 @@ def findClass(ip='0.0.0.0'):
     elif octets[0] in range(240, 256):
         return 'E'
     return 'Invalid'
+'''
