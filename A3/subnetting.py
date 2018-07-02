@@ -1,4 +1,11 @@
-#import pyping
+'''
+Used to simulate subnetwork and their creation,
+and to ping to a remote machine.
+Functions:
+    -> To create given number of subnetworks
+    -> To create the original network providing a network address
+    -> To ping to a specific machine
+'''
 import ipaddress
 from math import log
 from findSubnet import *
@@ -26,7 +33,7 @@ def createNetwork():
         print(str(e))
 
 
-def main():
+def ping():
     global ip, network
 
     # get your ip address
@@ -45,7 +52,8 @@ def main():
     createNetwork()
 
     # Create subnets
-    subnet_list = createSubnets(network=network, number=int(input('Enter of subnets to create:')))
+    subnet_list = createSubnets(network=network, number=int(
+        input('Enter of subnets to create:')))
 
     # Print first and last address in each subnet
     for iter, subnet in enumerate(subnet_list):
@@ -73,11 +81,8 @@ def main():
     except Exception as e:
         print(str(e))
 
+    # Find the output
     if out == 0:
         print('Host is up')
     else:
         print('Host is down')
-
-
-if __name__ == '__main__':
-    main()
