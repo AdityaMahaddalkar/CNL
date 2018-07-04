@@ -13,7 +13,7 @@ def inputIp():
 
 '''
 def findClass(ip='0.0.0.0'):
-    ''' Finds the class of ip'''
+    Finds the class of ip
     octets = list(map(int, ip.split('.')))
     if octets[0] in range(0, 128):
         return 'A'
