@@ -18,7 +18,7 @@ def createNetwork():
 
 def setMachineIp():
     ''' Sets machine ip 
-        Returns True if set successfully, else false
+        Returns True, custom network, machine ip if set successfully, else false
     '''
 
     _, custom_network = createNetwork()
@@ -43,12 +43,13 @@ def setMachineIp():
         os.system('sudo ifconfig ' + interface + ' up')
     except Exception as e:
         print(str(e))
-        return False, None, None
+        return False, None, Noneimp
 
     print("Successful")
     return True, custom_network, ip_in
 
 def pingMachine(networkId, thisIp):
+	'''Returns true if successfully pinging else false'''
 
     other_ip = str(input('Enter ip address to be ping: '))
 
@@ -62,7 +63,7 @@ def pingMachine(networkId, thisIp):
         return False
 
     try:
-        if os.system('ping ' + other_ip + ' -c 1') == 0:
+        if os.system('ping ' + other_ip.explode + ' -c 1') == 0:
             print('Successful, host is up')
         else:
             print('Host is down')
