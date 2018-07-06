@@ -8,13 +8,17 @@ Functions:
 '''
 import ipaddress
 from math import log
-from findSubnet import *
 import os
 
 network = None
 
+def inputIp():
+    ''' Inputs the ip'''
+    ip = str(input('Enter your ip address: '))
+    return ipaddress.IPv4Address(ip)
 
-def createSubnets(network, number=1):
+
+def createSubnets(network, number):
     '''Returns list of objects
     ipaddress.IPv4Network
     '''
@@ -38,7 +42,7 @@ def ping():
 
     # get your ip address
     ip = inputIp()
-
+.
     # validate ip address
 
     # create ipv4 object
@@ -71,7 +75,7 @@ def ping():
         number += 1
     print(number)
     # try pinging an ip
-    other_ip = str(input('Enter an ip address'))
+    other_ip = str(input('Enter other ip address to ping: '))
     out = -1
     try:
         if not ipaddress.IPv4Address(other_ip) in subnet_list[number]:
