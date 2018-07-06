@@ -7,7 +7,7 @@ Functions:
 '''
 
 import os
-import subnetting as sn
+import subnetting
 import ipaddress
 
 
@@ -37,6 +37,7 @@ def validateIp(ip, subnet_mask):
     # Create network address from ip and subnet_mask
     list_octets = list(map(int, ip.split('.')))
     list_octets[-1] = 0
+    list_octets = list(map(str, list_octets))
     network_address = str('.'.join(list_octets))
     try:
         network_address = ipaddress.IPv4Network(
@@ -58,7 +59,7 @@ def validateIp(ip, subnet_mask):
     iterator = 1
     for subnet in subnet_list:
         if temp_ip in subnet:
-            print('IP in subnet {} number {}'.format(subnet.explode, iterator))
+            print('IP in subnet {} number {}'.format(subnet.network_address, iterator))
             return True, subnet_list, subnet
 
     return False, None
@@ -69,7 +70,8 @@ def setInterface():
     interface = findInterface()
 
     # Input the ip address and netmask from user and validate
-    ip, netmask = map(str, input('Enter ip and subnetmask:').split())
+    ip = str(input('Enter ip: '))
+    netmask = str(input('Enter netmask: '))
     if(not validateIp(ip, netmask)[0]):
         print('IP not acceptable')
         return False
@@ -90,12 +92,12 @@ def setInterface():
 
     # Validate if that ip is in the subnet
 
-    if other_ip not in subnet:
+    '''if other_ip not in subnet:
         print('This IP is not in your subnet')
         return False
-
+	'''
     try:
-        output = os.system('ping ' + other_ip)
+        output = os.system('ping ' + other_ip + ' -c 1')
     except Exception as e:
         print(str(e))
 
@@ -103,3 +105,7 @@ def setInterface():
         print('\n\n\nHost is up')
         return True
     print('\n\n\nHost is down')
+    
+    
+if __name__ == '__main__':
+	setInterface()
