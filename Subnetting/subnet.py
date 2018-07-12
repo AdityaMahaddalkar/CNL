@@ -95,6 +95,11 @@ class myIP:
 
         prefix_length = ceil(log2(number_subnets))
         self.subnet_list = list(self.net_id.subnets(prefix_length))
+
+        # Remember to change the net_id
+        self.net_id = ipaddress.IPv4Network(
+            str(self.net_id.network_address) + '/' + str(self.net_id.prefixlen + prefix_length))
+
         return True
 
     def ping(self):
