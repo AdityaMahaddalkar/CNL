@@ -22,8 +22,11 @@ class myIP:
             ip_string = str(input('Enter ip that you want to set: '))
             self.ip = ipaddress.IPv4Address(ip_string)
             list_octets = list(map(int, ip_string.split('.')))
+            if(list_octets[-1] in [0, 255]):
+                print('Last octet invalid. Exiting...')
+                exit()
             list_octets[-1] = 0
-            temp_net_id = '.'.join(list_octets)
+            temp_net_id = '.'.join(list(map(str, list_octets)))
 
             netmask_map = {1: '255.0.0.0', 2: '255.255.0.0', 3: '255.255.255.0'}
 
@@ -72,7 +75,7 @@ class myIP:
         print('Default netID {} and default subnet mask {}'.format(
             str(self.net_id.network_address), str(self.net_id.netmask)))
 
-        prefix = int(list(self.net_id.split('/'))[-1])
+        prefix = int(list(str(self.net_id).split('/'))[-1])
 
         prefix += ceil(log2(number_subnets))
 
@@ -80,7 +83,7 @@ class myIP:
             print('Cannot create given number of subnets')
             return False
         else:
-            new_net_id_string = str(self.net_id.network_address) + '/' + prefix
+            new_net_id_string = str(self.net_id.network_address) + '/' + str(prefix)
             try:
                 new_net_id = ipaddress.IPv4Network(new_net_id_string)
                 print('New netmask {}'.format(str(new_net_id.netmask)))
@@ -113,7 +116,7 @@ class myIP:
                 our_subnet = subnet_address
                 break
 
-        # Check whether other ip is in sam subnet
+        # Check whether other ip is in same subnet
 
         if not ipaddress.IPv4Address(other_ip) in our_subnet:
             print('IP address is not in our subnet')
@@ -134,3 +137,15 @@ class myIP:
             print('Error in pinging, try again')
         else:
             print('No route to host, host is down')
+
+
+def main():
+    object = myIP()
+    object.set_ip()
+    object.create_subnets()
+    object.change_machine_ip()
+    object.ping()
+
+
+if __name__ == '__main__':
+    main()
