@@ -25,21 +25,23 @@ class myIP:
             if(list_octets[-1] in [0, 255]):
                 print('Last octet invalid. Exiting...')
                 exit()
-            list_octets[-1] = 0
-            temp_net_id = '.'.join(list(map(str, list_octets)))
 
             netmask_map = {1: '255.0.0.0', 2: '255.255.0.0', 3: '255.255.255.0'}
 
             netmask = '0.0.0.0'
             if list_octets[0] in range(1, 128):
                 netmask = netmask_map[1]
+                list_octets[1], list_octets[2], list_octets[3] = 0, 0, 0
             elif list_octets[0] in range(128, 192):
                 netmask = netmask_map[2]
+                list_octets[2], list_octets[3] = 0, 0
             elif list_octets[0] in range(192, 224):
                 netmask = netmask_map[3]
+                list_octets[3] = 0
             else:
                 raise Exception("Ip address not for commercial use")
 
+            temp_net_id = '.'.join(list(map(str, list_octets)))
             self.net_id = ipaddress.IPv4Network(temp_net_id + '/' + netmask)
             self.subnet_list = list(self.net_id.subnets())
 
