@@ -54,6 +54,7 @@ class myIP:
             Output : returns true if successfully set ip of machine,
                      else false
         '''
+        
         try:
 
             ip_string = str(self.ip)
