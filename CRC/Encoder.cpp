@@ -117,3 +117,7 @@ public:
 		
 	}
 };
+
+int main(){
+	
+}
