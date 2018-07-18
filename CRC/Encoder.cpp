@@ -18,6 +18,12 @@ public:
 		r = 3;
 	}
 
+	void printVector(vector<int> v){
+		for(int i = 0;i < v.size();i ++){
+			cout << v[i] << " ";
+		}
+	}
+
 	void getData(){
 		cout << "\nEnter the size of dataword: ";
 		cin >> k;
@@ -25,26 +31,17 @@ public:
 		cout << "\nEnter the bits of dataword: ";
 		for(int _ = 0;_ < k;_++){
 			cin >> temp;
-			try{
-				if(temp != 0 || temp != 1){
-					throw "Error";
-				}
-				dataword.push_back(temp);
-			}
-			catch(...){
-				cout << "\nDataword invalid";
-				exit(1);
-			}
+			dataword.push_back(temp);
 		}
 
 		// Size of codeword = dataword + redundant
 		n = k + r;
 
 		//Inititalize codeword by appending zeros to the end
-		for(int _ = 0; _ < this.k; _ ++){
+		for(int _ = 0; _ < this->k; _ ++){
 			codeword.push_back(dataword[_]);
 		}
-		for(int _ = 0;_ < this.r; _ ++){
+		for(int _ = 0;_ < this->r; _ ++){
 			codeword.push_back(0);
 		}
 
@@ -53,6 +50,11 @@ public:
 	void computeCodeword(){
 		vector<int> answer, temp_answer;
 		int pointer = 3;
+		
+		cout << "Initital codeword is" << endl;
+		printVector(codeword);
+		cout << endl; 
+
 		while(pointer < codeword.size()){
 			//Check the first bit of answer
 			// if it is 1, then xor with generator
@@ -72,13 +74,13 @@ public:
 			//Compute the temporary answer
 
 			if(first_bit == 1){
-				for(int i = pointer-3;i <= pointer;i ++){
-					temp_answer.push_back(answer[i] ^ codeword[i])
+				for(int i = 0;i <= 3;i ++){
+					temp_answer.push_back(answer[i] ^ generator[i]);
 				}
 			}
 			else{
-				for(int i = pointer-3;i <= pointer;i ++){
-					temp_answer.push_back(answer[i] ^ 0)
+				for(int i = 0;i <= 3;i ++){
+					temp_answer.push_back(answer[i] ^ 0);
 				}
 			}
 
@@ -86,7 +88,7 @@ public:
 			answer.clear();
 			temp_answer.erase(temp_answer.begin());
 			answer = temp_answer;
-
+			
 			//Assign pointer + 1 bit to end of answer
 
 			answer.push_back(codeword[pointer+1]);
@@ -95,10 +97,13 @@ public:
 
 			// Clear the temp answer
 			temp_answer.clear();
+			cout << "At iter " << pointer << " answer is";
+			printVector(answer);
+			cout << endl;
 		}
 
 		//Assign the redundant bit
-		answer.erase(answer.begin());
+		answer.erase(answer.end()-1);
 		redundant = answer;
 
 		//Create a new codeword
@@ -111,13 +116,20 @@ public:
 		for(int _ = 0;_ < r; _ ++){
 			codeword.push_back(redundant[_]);
 		}
+
+		cout << "Final codeword is" << endl;
+		printVector(codeword);
+		cout << endl;
+
 	}
 
 	void sendCodeWord(){
-		
+		//Logic to send codeword over the network
 	}
 };
 
 int main(){
-	
+	Encoder ec;
+	ec.getData();
+	ec.computeCodeword();
 }
