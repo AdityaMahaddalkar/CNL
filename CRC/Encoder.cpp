@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define PORT 8080
+
 
 class Encoder{
 	vector<int> dataword, redundant, codeword;
@@ -21,6 +23,21 @@ public:
 	void printVector(vector<int> v){
 		for(int i = 0;i < v.size();i ++){
 			cout << v[i] << " ";
+		}
+	}
+
+	void alterBit(){
+		cout << "Enter a bit to be altered: " << endl;
+		int alter_bit;
+		cin >> alter_bit;
+
+		try{
+			codeword[alter_bit] = codeword[alter_bit] == 1? 0:1;
+			cout << "After altering:" << endl;
+			printVector(codeword);
+		}
+		catch(...){
+			cout << "Error" << endl;
 		}
 	}
 
@@ -46,6 +63,42 @@ public:
 		}
 
 	}
+
+	void polynomialInput(){
+		cout << "Enter size of dataword: ";
+		cin >> k;
+
+		// Initialize all bits by zero
+		for(int _ = 0;_ < k;_ ++){
+			dataword.push_back(0);
+		}
+
+		// Enter exponents of polynomial whose bits are 1
+		cout << "\nEnter number of non-zero terms: ";
+		int non_zero;
+		int exponent;
+		cin >> non_zero;
+		try{
+			for(int i = 0;i < non_zero;i ++){
+				cout << "\nEnter term " << i << " : ";
+				cin >> exponent;
+				dataword[exponent] = 1;
+			}
+		}
+		catch(...){
+			cout << "\nError";
+			exit(1);
+		}
+
+		//Inititalize codeword by appending zeros to the end
+		for(int _ = 0; _ < this->k; _ ++){
+			codeword.push_back(dataword[_]);
+		}
+		for(int _ = 0;_ < this->r; _ ++){
+			codeword.push_back(0);
+		}
+	}
+
 
 	void computeCodeword(){
 		vector<int> answer, temp_answer;
@@ -125,6 +178,10 @@ public:
 
 	void sendCodeWord(){
 		//Logic to send codeword over the network
+
+		//Create socket
+
+		int sockfd = socket(AF_NET, SOCK_STREAM, 0);
 	}
 };
 
