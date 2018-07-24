@@ -28,11 +28,36 @@ public:
 
 	void testing(){
 		cout << "Enter codeword: ";
-		int temp;
-		for(int i = 0; i < 11;i ++){
+		string code_string;
+		cin >> code_string;
+
+		int n = code_string.length();
+		for(int i = 0;i < n;i ++){
+			codeword.push_back(code_string[i] - 48);
+		}		
+		printVector(codeword);
+	}
+
+	void polynomialTesting(){
+		cout << "\nEnter the size of the codeword: ";
+		int n;
+		cin >> n;
+		for(int i = 0;i < n;i ++){
+			codeword.push_back(0);
+		}
+		
+		//Input all the non-zero coefficients' exponents
+
+		cout << "\nEnter the number of non-zero coefficients: ";
+		int no_coeff, temp;
+		cin >> no_coeff;
+		for(int i = 0;i < no_coeff;i ++){
+			cout << "\nEnter exponent " << i << " : ";
 			cin >> temp;
-			codeword.push_back(temp);
-		}			
+			codeword[n-temp-1] = 1;
+		}
+		printVector(codeword);		
+
 	}
 
 	void checkSignificand(){
