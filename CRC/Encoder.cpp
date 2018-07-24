@@ -42,6 +42,7 @@ public:
 	}
 
 	void getData(){
+		/*
 		cout << "\nEnter the size of dataword: ";
 		cin >> k;
 		int temp;
@@ -50,6 +51,18 @@ public:
 			cin >> temp;
 			dataword.push_back(temp);
 		}
+		*/
+
+		//String input
+		cout << "\nEnter the dataword: ";
+		string data_string;
+		cin >> data_string;
+
+		k = data_string.length();
+		for(int i = 0;i < k;i ++){
+			dataword.push_back(data_string[i]-48);
+		}
+		printVector(dataword);
 
 		// Size of codeword = dataword + redundant
 		n = k + r;
@@ -65,32 +78,30 @@ public:
 	}
 
 	void polynomialInput(){
-		cout << "Enter size of dataword: ";
-		cin >> k;
 
-		// Initialize all bits by zero
-		for(int _ = 0;_ < k;_ ++){
+
+		//Initialize all terms by zero
+
+		cout << "\nEnter the size of the dataword: ";
+		cin >> k;
+		for(int i = 0;i < k;i ++){
 			dataword.push_back(0);
 		}
+		
+		//Input all the non-zero coefficients' exponents
 
-		// Enter exponents of polynomial whose bits are 1
-		cout << "\nEnter number of non-zero terms: ";
-		int non_zero;
-		int exponent;
-		cin >> non_zero;
-		try{
-			for(int i = 0;i < non_zero;i ++){
-				cout << "\nEnter term " << i << " : ";
-				cin >> exponent;
-				dataword[exponent] = 1;
-			}
+		cout << "\nEnter the number of non-zero coefficients: ";
+		int no_coeff, temp;
+		cin >> no_coeff;
+		for(int i = 0;i < no_coeff;i ++){
+			cout << "\nEnter exponent " << i << " : ";
+			cin >> temp;
+			dataword[k-temp-1] = 1;
 		}
-		catch(...){
-			cout << "\nError";
-			exit(1);
-		}
+		printVector(dataword);
 
 		//Inititalize codeword by appending zeros to the end
+
 		for(int _ = 0; _ < this->k; _ ++){
 			codeword.push_back(dataword[_]);
 		}
@@ -175,18 +186,11 @@ public:
 		cout << endl;
 
 	}
-
-	void sendCodeWord(){
-		//Logic to send codeword over the network
-
-		//Create socket
-
-		int sockfd = socket(AF_NET, SOCK_STREAM, 0);
-	}
 };
 
 int main(){
 	Encoder ec;
-	ec.getData();
+	//ec.getData();
+	ec.polynomialInput();
 	ec.computeCodeword();
 }
