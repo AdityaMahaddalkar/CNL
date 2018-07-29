@@ -34,9 +34,9 @@ def one_way_chat_loop():
     initialize_chat(chat_list)
 
     thread1 = threading.Thread(target=send_from_two_one, args=(
-        chat_list[0], chat_list[1]))
+        chat_list[0][0], chat_list[0][1]))
     thread2 = threading.Thread(target=send_from_one_two, args=(
-        chat_list[1], chat_list[0]))
+        chat_list[0][1], chat_list[0][0]))
 
     thread1.start()
     thread2.start()
