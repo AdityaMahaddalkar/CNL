@@ -8,6 +8,9 @@ socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 other_name = None
 
 
+def initiate_chat():
+    socket.sendto('Start', server_address)
+
 def send_message():
 
     while True:

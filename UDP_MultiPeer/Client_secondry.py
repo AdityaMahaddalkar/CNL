@@ -8,11 +8,8 @@ socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 initiator = None
 
 
-def get_initiator():
-    global initiator
-
-    message_from_server, _ = socket.recvfrom(4096)
-    initiator = list(message_from_server.split())[0]
+def initiate_chat():
+    socket.sendto('Start', server_address)
 
 
 def receive_message():
@@ -34,7 +31,7 @@ def send_message():
 
 def main_client_loop():
 
-    get_initiator()
+    initiate_chat()
 
     thread1 = threading.Thread(target=send_message, args=())
     thread2 = threading.Thread(target=receive_message, args=())
