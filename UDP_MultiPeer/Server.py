@@ -7,26 +7,38 @@ socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 socket.bind(server_address)
 
 chat_list = []
+peer_names = []
 
 
 def initialize_chat(chat_list):
     peer_name1, address1 = socket.recvfrom(4096)
     peer_name2, address2 = socket.recvfrom(4096)
     chat_list.append((address1, address2))
+    peer_names.append((peer_name1, peer_name2))
 
 
 def send_from_one_two(address_sender, address_receiver):
 
     while True:
         message1, _ = socket.recvfrom(4096)
-        socket.sendto(message1, address_receiver)
+        if(_ != address_receiver):
+            socket.sendto(
+                message1, address_receiver)
+        else:
+            socket.sendto(
+                message1, address_sender)
 
 
 def send_from_two_one(address_sender, address_receiver):
 
     while True:
         message2, _ = socket.recvfrom(4096)
-        socket.sendto(message2, address_receiver)
+        if(_ != address_receiver):
+            socket.sendto(
+                message2, address_receiver)
+        else:
+            socket.sendto(
+                message2, address_sender)
 
 
 def one_way_chat_loop():
@@ -40,6 +52,9 @@ def one_way_chat_loop():
 
     thread1.start()
     thread2.start()
+
+    thread1.join()
+    thread2.join()
 
 
 def main_server_loop():
