@@ -5,11 +5,13 @@ import sys
 server_address = ('localhost', 10000)
 socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-initiator = None
+your_name = None
 
 
 def initiate_chat():
-    socket.sendto('Start', server_address)
+    global your_name
+    your_name = bytes(input('Enter your name: '), encoding='UTF-8')
+    socket.sendto(your_name, server_address)
 
 
 def receive_message():
@@ -18,7 +20,7 @@ def receive_message():
     while True:
 
         message_in, _ = socket.recvfrom(4096)
-        print('{} : {}'.format(initiator, message_in.decode(encoding='UTF-8')))
+        print('{}'.format(message_in.decode(encoding='UTF-8')))
 
 
 def send_message():
@@ -26,7 +28,8 @@ def send_message():
     while True:
 
         message_out = bytes(input(), encoding='UTF-8')
-        socket.sendto(message_out, server_address)
+        socket.sendto(your_name + bytes(':', encoding='UTF-8') +
+                      message_out, server_address)
 
 
 def main_client_loop():
