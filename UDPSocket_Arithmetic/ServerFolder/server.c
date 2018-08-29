@@ -35,7 +35,7 @@ void main(){
 	address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons(PORT);
 
-	if (bind(server_fd, (struct sockaddr *)&address, 
+	if (bind(server_fd, (struct sockaddr *)&address,
                                  sizeof(address))<0)
    	{
         	perror("bind failed");
@@ -46,13 +46,13 @@ void main(){
         	perror("listen");
         	exit(EXIT_FAILURE);
     	}
-    	if ((new_socket = accept(server_fd, (struct sockaddr *)&address, 
+    	if ((new_socket = accept(server_fd, (struct sockaddr *)&address,
                        (socklen_t*)&addrlen))<0)
    	{
         	perror("accept");
         	exit(EXIT_FAILURE);
     	}
-	
+
     	valread = read(new_socket, buffer, 1024);
     	printf("%s\n", buffer);
 
@@ -63,7 +63,7 @@ void main(){
 	valread = read(new_socket, buffer2, 10);
 	fprintf(fp, "%s", buffer2);
 	fclose(fp);
-	
+
 	// Arithmetic
 	int recv, option, num1, num2, answer;
 	valread = read(new_socket, &recv, sizeof(recv));
@@ -72,9 +72,9 @@ void main(){
 	num1 = ntohl(recv);
 	valread = read(new_socket, &recv, sizeof(recv));
 	num2 = ntohl(recv);
-	
+
 	//printf("%d, %d, %d", option, num1, num2);
-	
+
 	switch(option){
 		case 1:
 			answer = num1 + num2;
@@ -92,7 +92,7 @@ void main(){
 			answer = 0;
 			break;
 	}
-	
+
 	recv = htonl(answer);
 	send(new_socket, &recv, sizeof(recv), 0);
 }
