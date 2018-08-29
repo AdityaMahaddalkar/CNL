@@ -9,6 +9,7 @@
 #include<arpa/inet.h>
 #include<netdb.h>
 #define PORT 8099
+
 void main(){
 
 	int server_fd, new_socket, valread;
@@ -16,8 +17,6 @@ void main(){
 	int opt = 1;
 	int addrlen = sizeof(address);
 	char buffer[1024] = {0};
-	printf("Enter message: ");
-	scanf("%s", &buffer);
 
 	if( (server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
@@ -66,11 +65,34 @@ void main(){
 	fclose(fp);
 	
 	// Arithmetic
-	char option[1], num1[1], num2[1], answer[2];
-	valread = read(new_socket, option, 1);
-	valread = read(new_socket, num1, 1);
-	valread = read(new_socket, num2, 1);
+	int recv, option, num1, num2, answer;
+	valread = read(new_socket, &recv, sizeof(recv));
+	option = ntohl(recv);
+	valread = read(new_socket, &recv, sizeof(recv));
+	num1 = ntohl(recv);
+	valread = read(new_socket, &recv, sizeof(recv));
+	num2 = ntohl(recv);
 	
-	printf("%s %s %s",option[1], num1[1], num2[1]); 
+	//printf("%d, %d, %d", option, num1, num2);
 	
+	switch(option){
+		case 1:
+			answer = num1 + num2;
+			break;
+		case 2:
+			answer = num1 - num2;
+			break;
+		case 3:
+			answer = num1 * num2;
+			break;
+		case 4:
+			answer = num1 / num2;
+			break;
+		default:
+			answer = 0;
+			break;
+	}
+	
+	recv = htonl(answer);
+	send(new_socket, &recv, sizeof(recv), 0);
 }

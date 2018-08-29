@@ -9,6 +9,7 @@
 #include<arpa/inet.h>
 #include<netdb.h>
 #define PORT 8099
+
 void main(int argc, char const *argv[])
 {
     struct sockaddr_in address;
@@ -53,19 +54,27 @@ void main(int argc, char const *argv[])
     
     // Arithmetic 
     
-    printf("\n1. to add\n2. to sub\n3.to mul\n4.to div:");
-    char option[1];
-    scanf("%s", &option);
-    send(sock, option, strlen(option), 0);
+    printf("\n[1]To add\n[2]To sub\n[3]To mul\n[4]To div:");
+    int option;
+    scanf("%d", &option);
+    int converted = htonl(option);
+    
+    send(sock, &converted, sizeof(converted), 0);
     
     printf("Enter num1: ");
-    char num1[1];
-    scanf("%s", &num1);
-    send(sock, num1, strlen(num1), 0);
+    int num1;
+    scanf("%d", &num1);
+    converted = htonl(num1);
+    send(sock, &converted, sizeof(converted), 0);
     
     printf("Enter num2: ");
-    char num2[1];
-    scanf("%s", &num2);
-    send(sock, num2, strlen(num2), 0);
+    int num2;
+    scanf("%d", &num2);
+    converted = htonl(num2);
+    send(sock, &converted, sizeof(converted), 0);
+    
+    int valread2 = read(sock, &converted, sizeof(converted));
+    int answer = ntohl(converted);
+    printf("Answer : %d\n", answer);
      
 }
