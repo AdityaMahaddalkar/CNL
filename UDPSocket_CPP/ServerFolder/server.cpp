@@ -46,9 +46,9 @@ int main() {
      
 	// Save to a new file
 	
-	ofstream outfile;
-	outfile.open("file", ios::out);
-	outfile << buffer;
-	outfile.close();
+    ofstream outfile;
+    outfile.open("file", ios::out);
+    outfile << buffer;
+    outfile.close();
     return 0;
 }
